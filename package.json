@@ -1,0 +1,14 @@
+{
+  "name": "nni-website",
+  "version": "1.0.0",
+  "description": "New Neighbor Initiative website",
+  "main": "server.js",
+  "scripts": {
+    "build": "echo \"No build step: static site served by server.js\"",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {}
+}
