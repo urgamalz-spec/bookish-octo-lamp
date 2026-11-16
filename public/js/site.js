@@ -203,6 +203,27 @@
       var data = {}; Array.prototype.forEach.call(form.elements, function (el) { if (el.name && el.name !== '_gotcha' && el.value) data[el.name] = el.value; });
       data._subject = 'nneighbor.org — ' + kind; data.form = kind;
       var btn = form.querySelector('[type=submit]');
+      if (kind.indexOf('Newsletter') === 0 && CFG.mailchimpUrl) {
+        // Mailchimp JSONP signup (works from a static site, no server needed)
+        var u = CFG.mailchimpUrl.replace('/subscribe/post?', '/subscribe/post-json?').replace(/&amp;/g, '&');
+        var q = u.split('?')[1] || '';
+        var m = /(?:^|&)u=([^&]+)/.exec(q), i = /(?:^|&)id=([^&]+)/.exec(q);
+        var cb = 'nniMc' + Date.now();
+        var parts = ['EMAIL=' + encodeURIComponent(data.email || '')];
+        if (data.name) parts.push('FNAME=' + encodeURIComponent(data.name));
+        if (m && i) parts.push('b_' + m[1] + '_' + i[1] + '=');
+        btn.disabled = true; if (note) note.textContent = 'Subscribing…';
+        var tag = document.createElement('script');
+        var done = function (msg) { btn.disabled = false; if (note) note.innerHTML = msg; try { delete window[cb]; } catch (x) { window[cb] = undefined; } tag.remove(); };
+        window[cb] = function (r) {
+          if (r && r.result === 'success') { form.reset(); done('Thank you — please check your inbox to confirm your subscription.'); }
+          else { var msg = (r && r.msg ? String(r.msg).replace(/^\d+ - /, '') : ''); done(/already subscribed/i.test(msg) ? 'You’re already subscribed — thank you!' : 'Sorry, that didn’t work. ' + msg.replace(/<[^>]*>/g, '')); }
+        };
+        tag.onerror = function () { done('Sorry, that didn’t go through. Please email us at <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.'); };
+        tag.src = u + '&' + parts.join('&') + '&c=' + cb;
+        document.body.appendChild(tag);
+        return;
+      }
       if (CFG.formEndpoint) {
         btn.disabled = true; if (note) note.textContent = 'Sending…';
         fetch(CFG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })

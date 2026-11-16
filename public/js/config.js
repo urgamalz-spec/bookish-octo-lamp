@@ -10,5 +10,8 @@
 window.NNI_CONFIG = {
   donateUrl: 'https://www.zeffy.com/en-US/donation-form/support-new-neighbor-initiative-building-leadership-opportunity-and-community',
   formEndpoint: '',
+  // Mailchimp: the embedded signup form's action URL (Audience › Signup forms › Embedded forms),
+  // e.g. https://xxxx.us21.list-manage.com/subscribe/post?u=...&id=...&f_id=...
+  mailchimpUrl: '',
   contactEmail: 'connect@nneighbor.org'
 };
