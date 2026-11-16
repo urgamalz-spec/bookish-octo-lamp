@@ -217,9 +217,9 @@
         var done = function (msg) { btn.disabled = false; if (note) note.innerHTML = msg; try { delete window[cb]; } catch (x) { window[cb] = undefined; } tag.remove(); };
         window[cb] = function (r) {
           if (r && r.result === 'success') { form.reset(); done('Thank you — please check your inbox to confirm your subscription.'); }
-          else { var msg = (r && r.msg ? String(r.msg).replace(/^\d+ - /, '') : ''); done(/already subscribed/i.test(msg) ? 'You’re already subscribed — thank you!' : 'Sorry, that didn’t work. ' + msg.replace(/<[^>]*>/g, '')); }
+          else { var msg = (r && r.msg ? String(r.msg).replace(/^\d+ - /, '') : ''); done(/already subscribed/i.test(msg) ? 'You’re already subscribed — thank you!' : 'Sorry, that didn’t work. ' + msg.replace(/<[^>]*>/g, '') + (CFG.newsletterPage ? ' You can also <a href="' + CFG.newsletterPage + '" target="_blank" rel="noopener">subscribe on our Mailchimp page ↗</a>.' : '')); }
         };
-        tag.onerror = function () { done('Sorry, that didn’t go through. Please email us at <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.'); };
+        tag.onerror = function () { done(CFG.newsletterPage ? 'Sorry, that didn’t go through. Please <a href="' + CFG.newsletterPage + '" target="_blank" rel="noopener">subscribe on our Mailchimp page ↗</a>.' : 'Sorry, that didn’t go through. Please email us at <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.'); };
         tag.src = u + '&' + parts.join('&') + '&c=' + cb;
         document.body.appendChild(tag);
         return;
