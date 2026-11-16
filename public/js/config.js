@@ -8,7 +8,7 @@
                 email app addressed to contactEmail instead.
 */
 window.NNI_CONFIG = {
-  donateUrl: '',
+  donateUrl: 'https://www.zeffy.com/en-US/donation-form/support-new-neighbor-initiative-building-leadership-opportunity-and-community',
   formEndpoint: '',
   contactEmail: 'connect@nneighbor.org'
 };
