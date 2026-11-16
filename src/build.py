@@ -7,7 +7,7 @@ import re, json, datetime, pathlib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = 'https://nneighbor.org'
 V = datetime.datetime.now().strftime('%Y%m%d%H%M')
-WHO = 'Mongolian American, AAPI, and immigrant communities'
+WHO = 'communities, especially Mongolian American, AAPI, and immigrant groups,'
 
 PAGES = {  # data-page: (file, title, description)
   'home': ('index.html', 'New Neighbor Initiative · Community-rooted. Institutionally connected.',
