@@ -68,8 +68,8 @@ nav.main a.donate:hover{background:#FECD43;border-color:#FECD43;color:#033366}
 .subnav a.on{border-bottom-color:#004AAD}
 
 /* pages */
-[data-page]{display:none}
-[data-page].show{display:block}
+main > [data-page]{display:none}
+main > [data-page].show{display:block}
 .only-home,.only-work,.only-news{display:none}
 
 /* photo slots: brand panel until a photo file is added */
@@ -123,3 +123,19 @@ footer a.f:hover{color:#FECD43}
 /* Home "Our Approach": larger photo column */
 .approach-grid{grid-template-columns:1fr;gap:clamp(40px,5vw,72px)}
 @media (min-width:900px){.approach-grid{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}}
+
+/* ---- multi-page additions ---- */
+[id]{scroll-margin-top:100px}
+a.feature{border:1px solid #E4DED2;transition:border-color .2s}
+a.feature:hover{border-color:#004AAD;color:#033366}
+.proof a:hover span:last-child{color:#FCFBF8;text-decoration:underline}
+.menu-toggle{display:none;background:#033366;color:#F7F4EE;border:0;border-radius:3px;padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+@media (max-width:820px){
+  .menu-toggle{display:inline-block}
+  nav.main{display:none;width:100%;flex-direction:column;align-items:flex-start;gap:0;padding-top:8px}
+  nav.main.open{display:flex}
+  nav.main a{padding:13px 0;font-size:12px;width:100%;border-bottom:1px solid #E4DED2}
+  nav.main a.on{border-bottom-color:#004AAD}
+  nav.main a.donate{margin-top:12px;width:auto;border-bottom:0}
+}
+.form-note:empty{display:none}

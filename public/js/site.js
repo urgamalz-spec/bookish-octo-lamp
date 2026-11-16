@@ -25,19 +25,19 @@
         '<div class="track" aria-hidden="true" style="height:' + h + 'px"><div class="fill" style="width:' + r[1] + '%;background:' + (r[2] || color) + (color === '#FECD43' ? ';box-shadow:inset 0 0 0 1px #D9A92A' : '') + '"></div></div></div>';
     }).join('');
   }
-  bars('#bars-issues', [
+  if ($('#bars-issues')) bars('#bars-issues', [
     ['Immigration & legal support', 53, '#033366'], ['Healthcare access', 50, '#033366'],
     ['Cultural preservation & community programs', 46, '#004AAD'], ['Employment opportunities', 45, '#004AAD'],
     ['Stronger community organizations', 45, '#004AAD'], ['Youth engagement', 25, '#8FA9C9'],
     ['Housing affordability', 22, '#8FA9C9'], ['Access to education', 19, '#8FA9C9'],
     ['Language access & interpretation', 13, '#8FA9C9']
   ], '#004AAD', 10);
-  bars('#bars-congress', [
+  if ($('#bars-congress')) bars('#bars-congress', [
     ['Small-business support', 73], ['More funding for emerging immigrant communities', 56],
     ['Affordable housing', 31], ['Language access to government services', 29]
   ], '#FECD43', 14);
 
-  $('#six-areas').innerHTML = [
+  if ($('#six-areas')) $('#six-areas').innerHTML = [
     ['Business Readiness', 'Strengthen operations, financial understanding, systems, positioning, and the underlying capacity required for growth.'],
     ['Capital Access', 'Help owners identify appropriate grants, lenders, financing programs, and capital-readiness resources — and understand what must happen before applying.'],
     ['Technical Assistance', 'Connect businesses with qualified accounting, legal, technology, marketing, procurement, and business-support expertise when specialized help is required.'],
@@ -54,7 +54,7 @@
     ['03', 'n-navy', 'ECONOMIC OPPORTUNITY', 'Businesses turning available resources into action.', [['58+', 'Businesses assisted', 'Owners receiving targeted navigation or support'], ['100+', 'Connections completed', 'Referrals to lenders, technical-assistance providers, procurement programs, or partners'], ['300+', 'Opportunities accessed', 'Grants, financing, training, procurement, certifications, or networks'], ['30+', 'Strategies implemented', 'Operational, financial, market, technology, or growth actions']], 'Measured by what businesses do next — not attendance alone — and reported only when records can verify it.'],
     ['04', 'n-blue', 'INSTITUTIONAL PARTNERSHIPS', 'Relationships across every sector.', [['21', 'Partner organizations'], ['6', 'Sectors: government, nonprofit, business, university, diplomatic, community']], 'Programs are co-hosted with public offices, embassies, universities, and community organizations — not delivered alone.']
   ];
-  $('#impact-blocks').innerHTML = impact.map(function (b) {
+  if ($('#impact-blocks')) $('#impact-blocks').innerHTML = impact.map(function (b) {
     var stats = b[4].map(function (s) {
       return '<div class="cardw stack" style="padding:24px;gap:8px"><span class="serif" style="font-size:52px;line-height:1">' + esc(s[0]) + '</span>' +
         (s[2] ? '<span style="font-size:15px;font-weight:500;line-height:1.4">' + esc(s[1]) + '</span><span style="font-size:13.5px;line-height:1.45;color:#4A5563">' + esc(s[2]) + '</span>' : '<span style="font-size:14px;line-height:1.45;color:#4A5563">' + esc(s[1]) + '</span>') + '</div>';
@@ -69,7 +69,7 @@
     ['Recap · November 2026', 'From the B20 Summit to District procurement leaders', [['Nov 5', 'DC Department of General Services — 3rd Annual Certified Business Enterprise Symposium'], ['Nov 5', 'Diwali Reception at the Embassy of India'], ['Nov 6', '32nd Annual Loudoun Small Business Awards'], ['Nov 9–11', 'B20 Summit — U.S. Chamber of Commerce'], ['Nov 12', 'National ACE Q4 Strategic Partners Meeting']]],
     ['Recap · October 2026', 'NNI in the room with business and procurement leaders', [['Oct 16', 'Asian American Chamber of Commerce Business Summit'], ['Oct 21', 'US Chamber of Commerce Small Business Forum'], ['Oct 22', 'Prince George’s County Office of Procurement — Partnering for Impact'], ['Oct 27', 'Maryland State Business Roundtable']]]
   ];
-  $('#recaps').innerHTML = recaps.map(function (r) {
+  if ($('#recaps')) $('#recaps').innerHTML = recaps.map(function (r) {
     return '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(24px,4vw,56px);padding:32px 0;border-bottom:1px solid #DCD5C7">' +
       '<div class="stack g14"><span class="tag">' + esc(r[0]) + '</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.1">' + esc(r[1]) + '</h3><p class="body">In ' + esc(r[0].replace('Recap · ', '')) + ', NNI participated in:</p></div>' +
       '<div class="stack" style="border-top:1px solid #DCD5C7">' + r[2].map(function (e) {
@@ -100,6 +100,12 @@
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   var now = new Date();
+  var todayKey = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+  function gcal(e) {
+    var d = e.date.replace(/-/g, ''); var n = new Date(+e.date.slice(0, 4), +e.date.slice(5, 7) - 1, +e.date.slice(8, 10) + 1);
+    var d2 = n.getFullYear() + String(n.getMonth() + 1).padStart(2, '0') + String(n.getDate()).padStart(2, '0');
+    return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(e.title) + '&dates=' + d + '/' + d2 + '&details=' + encodeURIComponent((e.time ? 'Time: ' + e.time + '\n' : '') + 'https://nneighbor.org/events.html') + (e.location ? '&location=' + encodeURIComponent(e.location) : '');
+  }
   var cal = { y: now.getFullYear(), m: now.getMonth(), f: 'all' };
   var key = function (y, m) { return y + '-' + String(m + 1).padStart(2, '0'); };
   var areasOf = function (e) { return [].concat(e.area); };
@@ -107,6 +113,7 @@
   var sortKey = function (e) { return e.date.length === 7 ? e.date + '-99' : e.date; };
 
   var filters = $('#cal-filters');
+  if (filters) {
   [['all', 'All']].concat(Object.keys(AREAS).map(function (k) { return [k, AREAS[k]]; })).forEach(function (f) {
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'chip'; b.textContent = f[1]; b.setAttribute('data-f', f[0]);
@@ -159,58 +166,75 @@
             (e.time ? '<span>' + esc(e.time) + '</span>' : '') + (e.location ? '<span>' + esc(e.location) + '</span>' : '') + '</div>' +
             '<h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(24px,2.4vw,32px);line-height:1.15;text-wrap:balance">' + esc(e.title) + '</h3>' +
             (e.note ? '<p class="body" style="max-width:640px;white-space:pre-line">' + esc(e.note) + '</p>' : '') +
-            (e.link ? '<a class="link" href="' + esc(e.link) + '" target="_blank" rel="noopener">Details ↗</a>' : '') + '</article>';
+            '<div style="display:flex;gap:10px 22px;flex-wrap:wrap">' + (e.link ? '<a class="link" href="' + esc(e.link) + '" target="_blank" rel="noopener">Details ↗</a>' : '') + (e.date.length === 10 && e.date >= todayKey ? '<a class="link" href="' + gcal(e) + '" target="_blank" rel="noopener">Add to Google Calendar ↗</a>' : '') + '</div></article>';
         }).join('') + '</div></div>';
     }).join('');
   }
   renderCal();
+  }
 
-  /* ---------- Contact form (opens the visitor's email app) ---------- */
+  /* ---------- Contact topics (Get Involved) ---------- */
   var topic = 'partner';
   var TOPIC_LABEL = { volunteer: 'Volunteer', partner: 'Partnership', community: 'Bring NNI to my community', support: 'Support NNI' };
   function setTopic(t) {
     topic = t;
     $$('#topics [data-topic]').forEach(function (b) { var on = b.getAttribute('data-topic') === t; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
   }
-  $$('[data-topic]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      setTopic(b.getAttribute('data-topic'));
-      if (!b.closest('#topics')) $('#contact').scrollIntoView({ behavior: 'smooth' });
+  if ($('#topics')) {
+    $$('[data-topic]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        setTopic(b.getAttribute('data-topic'));
+        if (!b.closest('#topics')) $('#contact').scrollIntoView({ behavior: 'smooth' });
+      });
     });
-  });
-  setTopic('partner');
-  $('#contact-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    var f = e.target;
-    var body = 'Name: ' + f.name.value + '\nOrganization: ' + f.org.value + '\nEmail: ' + f.email.value + '\n\n' + f.message.value;
-    location.href = 'mailto:connect@nneighbor.org?subject=' + encodeURIComponent('Website inquiry: ' + TOPIC_LABEL[topic]) + '&body=' + encodeURIComponent(body);
+    setTopic('partner');
+  }
+
+  /* ---------- Forms: deliver to formEndpoint, or fall back to the visitor's email app ---------- */
+  var CFG = window.NNI_CONFIG || {};
+  var EMAIL = CFG.contactEmail || 'connect@nneighbor.org';
+  $$('form.nni-form').forEach(function (form) {
+    var note = form.querySelector('.form-note');
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      if (form._gotcha && form._gotcha.value) return;
+      var kind = form.getAttribute('data-form') || 'Website form';
+      if (form.id === 'contact-form') kind += ': ' + TOPIC_LABEL[topic];
+      var data = {}; Array.prototype.forEach.call(form.elements, function (el) { if (el.name && el.name !== '_gotcha' && el.value) data[el.name] = el.value; });
+      data._subject = 'nneighbor.org — ' + kind; data.form = kind;
+      var btn = form.querySelector('[type=submit]');
+      if (CFG.formEndpoint) {
+        btn.disabled = true; if (note) note.textContent = 'Sending…';
+        fetch(CFG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) })
+          .then(function (r) { if (!r.ok) throw new Error(r.status); form.reset(); if (note) note.textContent = kind.indexOf('Newsletter') === 0 ? 'Thank you — you’re subscribed.' : 'Thank you. We received your message and will be in touch.'; })
+          .catch(function () { if (note) note.innerHTML = 'Sorry, that didn’t send. Please email us at <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.'; })
+          .then(function () { btn.disabled = false; });
+      } else {
+        var body = Object.keys(data).filter(function (k) { return k.charAt(0) !== '_' && k !== 'form'; }).map(function (k) { return k.replace(/_/g, ' ') + ': ' + data[k]; }).join('\n');
+        location.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(data._subject) + '&body=' + encodeURIComponent(body);
+        if (note) note.innerHTML = 'Your email app should open with this message. If it doesn’t, email us at <a href="mailto:' + EMAIL + '">' + EMAIL + '</a>.';
+      }
+    });
   });
 
-  /* ---------- Router ---------- */
-  var PAGES = $$('[data-page]').map(function (el) { return el.getAttribute('data-page'); });
-  var WORK = ['work', 'civic', 'leadership', 'economic', 'culture'];
-  var NEWS = ['news', 'calendar'];
-  function route() {
-    var page = location.hash.slice(1) || 'home';
-    if (PAGES.indexOf(page) < 0) {
-      var target = document.getElementById(page);
-      if (target) { target.scrollIntoView(); return; }
-      page = 'home';
-    }
-    $$('[data-page]').forEach(function (el) { el.classList.toggle('show', el.getAttribute('data-page') === page); });
-    $('#work-subnav').hidden = WORK.indexOf(page) < 0;
-    $('#news-subnav').hidden = NEWS.indexOf(page) < 0;
-    $$('[data-sub]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-sub') === page); });
-    $$('[data-nav]').forEach(function (a) {
-      var n = a.getAttribute('data-nav');
-      var on = n === page || (n === 'work' && WORK.indexOf(page) >= 0);
-      a.classList.toggle('on', on);
-      if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  /* ---------- Donate buttons ---------- */
+  $$('[data-donate]').forEach(function (a) {
+    if (CFG.donateUrl) { a.href = CFG.donateUrl; a.target = '_blank'; a.rel = 'noopener'; }
+  });
+  $$('[data-donate-pending]').forEach(function (el) { el.hidden = !!CFG.donateUrl; });
+
+  /* ---------- Phone menu ---------- */
+  var toggle = $('.menu-toggle'), nav = $('nav.main');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open);
+      toggle.textContent = open ? 'Close' : 'Menu';
     });
-    var h = $('[data-page="' + page + '"] h1');
-    document.title = page === 'home' ? 'New Neighbor Initiative' : (h ? h.textContent.trim() + ' · ' : '') + 'New Neighbor Initiative';
-    window.scrollTo(0, 0);
   }
-  window.addEventListener('hashchange', route);
-  route();
+
+  /* ---------- Old #page links → new page addresses ---------- */
+  var OLD = { home: 'index.html', about: 'about.html', work: 'our-work.html', civic: 'civic-policy.html', priorities: 'community-priorities.html', leadership: 'leadership-youth.html', economic: 'economic-opportunity.html', culture: 'culture-community.html', impact: 'impact.html', news: 'news.html', calendar: 'events.html', involved: 'get-involved.html' };
+  var h = location.hash.slice(1);
+  if (document.body.getAttribute('data-page') === 'home' && OLD[h]) location.replace(OLD[h]);
 })();

@@ -27,7 +27,13 @@ http.createServer((req, res) => {
   fs.stat(file, (err, st) => {
     if (!err && st.isDirectory()) { file = path.join(file, 'index.html'); st = null; err = null; }
     fs.stat(file, (e, info) => {
-      if (e || !info.isFile()) { file = path.join(root, 'index.html'); }
+      let status = 200;
+      if (e || !info.isFile()) {
+        // Clean URLs: /about -> about.html ; unknown pages -> 404 page
+        const html = file + '.html';
+        if (!path.extname(file) && fs.existsSync(html)) { file = html; }
+        else { file = path.join(root, '404.html'); status = 404; }
+      }
       fs.stat(file, (e2, s2) => {
         if (e2) { res.writeHead(500); return res.end('Server error'); }
         const type = types[path.extname(file).toLowerCase()] || 'application/octet-stream';
@@ -45,7 +51,7 @@ http.createServer((req, res) => {
           res.writeHead(206, { 'Cache-Control': cacheFor(path.extname(file).toLowerCase()), 'Content-Type': type, 'Content-Range': 'bytes ' + start + '-' + end + '/' + size, 'Accept-Ranges': 'bytes', 'Content-Length': end - start + 1 });
           return fs.createReadStream(file, { start, end }).pipe(res);
         }
-        res.writeHead(200, { 'Cache-Control': cacheFor(path.extname(file).toLowerCase()), 'Content-Type': type, 'Content-Length': size, 'Accept-Ranges': 'bytes' });
+        res.writeHead(status, { 'Cache-Control': cacheFor(path.extname(file).toLowerCase()), 'Content-Type': type, 'Content-Length': size, 'Accept-Ranges': 'bytes' });
         if (req.method === 'HEAD') return res.end();
         fs.createReadStream(file).pipe(res);
       });
