@@ -12,6 +12,6 @@ window.NNI_CONFIG = {
   formEndpoint: '',
   // Mailchimp: the embedded signup form's action URL (Audience › Signup forms › Embedded forms),
   // e.g. https://xxxx.us21.list-manage.com/subscribe/post?u=...&id=...&f_id=...
-  mailchimpUrl: '',
+  mailchimpUrl: 'https://nneighbor.us12.list-manage.com/subscribe/post?u=7144f083ab095774462ba3c99&id=537299cc16',
   contactEmail: 'connect@nneighbor.org'
 };
