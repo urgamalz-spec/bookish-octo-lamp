@@ -166,7 +166,7 @@
             (e.time ? '<span>' + esc(e.time) + '</span>' : '') + (e.location ? '<span>' + esc(e.location) + '</span>' : '') + '</div>' +
             '<h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(24px,2.4vw,32px);line-height:1.15;text-wrap:balance">' + esc(e.title) + '</h3>' +
             (e.note ? '<p class="body" style="max-width:640px;white-space:pre-line">' + esc(e.note) + '</p>' : '') +
-            '<div style="display:flex;gap:10px 22px;flex-wrap:wrap">' + (e.link ? '<a class="link" href="' + esc(e.link) + '" target="_blank" rel="noopener">Details ↗</a>' : '') + (e.date.length === 10 && e.date >= todayKey ? '<a class="link" href="' + gcal(e) + '" target="_blank" rel="noopener">Add to Google Calendar ↗</a>' : '') + '</div></article>';
+            '<div style="display:flex;gap:10px 22px;flex-wrap:wrap">' + (e.link ? '<a class="link" href="' + esc(e.link) + '" target="_blank" rel="noopener">Details ↗</a>' : '') + (e.date.length === 10 && e.date >= todayKey ? '<a class="link" href="' + gcal(e) + '" target="_blank" rel="noopener">Add to Google Calendar ↗</a>' : '') + (e.date.length === 7 ? '<a class="link" href="#newsletter" data-notify="' + esc(e.title) + '">Notify me when the date is set →</a>' : '') + '</div></article>';
         }).join('') + '</div></div>';
     }).join('');
   }
@@ -259,3 +259,15 @@
   var h = location.hash.slice(1);
   if (document.body.getAttribute('data-page') === 'home' && OLD[h]) location.replace(OLD[h]);
 })();
+
+// "Notify me" on Date TBA events -> newsletter signup
+document.addEventListener('click', function (ev) {
+  var a = ev.target.closest && ev.target.closest('[data-notify]');
+  if (!a) return;
+  var sec = document.getElementById('newsletter'); if (!sec) return;
+  ev.preventDefault();
+  sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  var note = sec.querySelector('.form-note'), email = sec.querySelector('input[type=email]');
+  if (note) note.textContent = 'Subscribe and we’ll email you when the date for “' + a.getAttribute('data-notify') + '” is confirmed.';
+  if (email) setTimeout(function () { email.focus({ preventScroll: true }); }, 500);
+});
