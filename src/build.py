@@ -64,7 +64,7 @@ def links(html, here):
 
 org = {"@context": "https://schema.org", "@type": "NGO", "name": "New Neighbor Initiative", "alternateName": "NNI",
        "url": SITE + "/", "logo": SITE + "/assets/nni-logo-navy.png", "email": "connect@nneighbor.org",
-       "nonprofitStatus": "Nonprofit501c3",
+       "nonprofitStatus": "Nonprofit501c3", "sameAs": ["https://www.instagram.com/nni.dc/", "https://www.facebook.com/profile.php?id=61586335480292"],
        "address": {"@type": "PostalAddress", "addressLocality": "Washington", "addressRegion": "DC", "addressCountry": "US"},
        "description": PAGES['home'][2]}
 
