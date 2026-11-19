@@ -154,3 +154,13 @@ a.feature:hover{border-color:#004AAD;color:#033366}
 .steps-row{grid-template-columns:1fr!important}
 .steps-row>div{flex-direction:row!important;align-items:baseline;gap:14px!important;padding:13px 0!important;border-left:0!important;border-bottom:1px solid #DCD5C7}
 }
+.recap-car{min-width:0;max-width:100%;padding:32px 0;border-bottom:1px solid #DCD5C7}
+.recap-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:24px}
+.recap-nav{display:flex;gap:6px;flex-wrap:wrap}
+.recap-nav .chip{padding:9px 13px}
+.recap-nav .chip:disabled{opacity:.35;cursor:default}
+.recap-track{overflow:hidden;transition:height .3s ease;margin:0 -4px}
+.recap-rail{display:flex;align-items:flex-start;transition:transform .45s ease}
+@media (prefers-reduced-motion:reduce){.recap-rail,.recap-track{transition:none}}
+.recap-track:focus-visible{outline:2px solid #004AAD;outline-offset:4px}
+.recap-slide{flex:0 0 100%;min-width:0;padding:0 4px;box-sizing:border-box}

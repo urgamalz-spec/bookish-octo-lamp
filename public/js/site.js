@@ -65,18 +65,6 @@
       '<p class="body" style="grid-column:1/-1;padding-top:16px;border-top:1px solid #DCD5C7">' + esc(b[5]) + '</p></div></div>';
   }).join('');
 
-  var recaps = [
-    ['Recap · November 2026', 'From the B20 Summit to District procurement leaders', [['Nov 5', 'DC Department of General Services — 3rd Annual Certified Business Enterprise Symposium'], ['Nov 5', 'Diwali Reception at the Embassy of India'], ['Nov 6', '32nd Annual Loudoun Small Business Awards'], ['Nov 9–11', 'B20 Summit — U.S. Chamber of Commerce'], ['Nov 12', 'National ACE Q4 Strategic Partners Meeting']]],
-    ['Recap · October 2026', 'NNI in the room with business and procurement leaders', [['Oct 16', 'Asian American Chamber of Commerce Business Summit'], ['Oct 21', 'US Chamber of Commerce Small Business Forum'], ['Oct 22', 'Prince George’s County Office of Procurement — Partnering for Impact'], ['Oct 27', 'Maryland State Business Roundtable']]]
-  ];
-  if ($('#recaps')) $('#recaps').innerHTML = recaps.map(function (r) {
-    return '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(24px,4vw,56px);padding:32px 0;border-bottom:1px solid #DCD5C7">' +
-      '<div class="stack g14"><span class="tag">' + esc(r[0]) + '</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.1">' + esc(r[1]) + '</h3><p class="body">In ' + esc(r[0].replace('Recap · ', '')) + ', NNI participated in:</p></div>' +
-      '<div class="stack" style="border-top:1px solid #DCD5C7">' + r[2].map(function (e) {
-        return '<div class="grid" style="grid-template-columns:84px minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid #DCD5C7;align-items:baseline"><span class="mono" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#004AAD">' + esc(e[0]) + '</span><span class="serif" style="font-size:22px;line-height:1.2">' + esc(e[1]) + '</span></div>';
-      }).join('') + '</div></div>';
-  }).join('');
-
   /* ---------- Event calendar ---------- */
   var AREAS = { civic: 'Civic & Policy', leadership: 'Leadership & Youth', economic: 'Economic Opportunity', culture: 'Culture & Community' };
   var DOT = { civic: '#FECD43', leadership: '#004AAD', economic: '#033366', culture: '#F7F4EE' };
@@ -108,6 +96,59 @@
     { date: '2027-08', title: 'Small Business Masterclass | Demystifying SEO', area: 'economic', kind: 'NNI event', note: 'When someone searches for the service you offer, does your business show up? Join New Neighbor Initiative for a practical masterclass on search engine optimization (SEO) for micro and small business owners.\n\nWe’ll look at what potential customers type into Google and how to use that insight to improve your website and Google Business Profile. Learn how to make your service pages easier to find, show up in relevant local searches, and see which searches are already bringing people to your site.\n\nBring your website or a service you want more customers to find. You’ll leave knowing which updates to tackle first and how to tell whether they’re working.\n\n' + NL },
     { date: '2027-09', title: 'Small Business Masterclass | Build an Online Store That Sells', area: 'economic', kind: 'NNI event', note: 'Ready to sell online for the first time, or wondering why shoppers visit your store without buying? Join New Neighbor Initiative for an e-commerce masterclass for micro and small business owners.\n\nWe’ll follow the customer’s journey from the first product page to checkout. Learn how to choose a sales platform that fits your business, build product pages that answer buyers’ questions, and make decisions about shipping and returns that work for your customers and your margins. If you already sell online, we’ll look at how to spot where shoppers drop off and decide what to fix first.\n\nBring a product you want to sell or an online store you want to improve. Leave with a short list of changes you can put to work right away.\n\n' + NL }
   ];
+
+  /* ---------- Month-by-month recap carousel (News page) ---------- */
+  // NNI-hosted items come from EVENTS automatically; add partner events NNI took part in under "joined".
+  var RECAPS = [
+    { month: '2026-02', title: 'Mongolian culture on Capitol Hill' },
+    { month: '2026-04', title: 'Listening first: what the community told us' },
+    { month: '2026-05', title: 'The community’s first congressional fly-in' },
+    { month: '2026-09', title: 'AAPI small businesses in federal policy' },
+    { month: '2026-10', title: 'Democracy, storytelling, and business leadership', joined: [['Oct 16', 'Asian American Chamber of Commerce Business Summit'], ['Oct 21', 'US Chamber of Commerce Small Business Forum'], ['Oct 22', 'Prince George’s County Office of Procurement — Partnering for Impact'], ['Oct 27', 'Maryland State Business Roundtable']] },
+    { month: '2026-11', title: 'From the B20 Summit to District procurement leaders', joined: [['Nov 5', 'DC Department of General Services — 3rd Annual Certified Business Enterprise Symposium'], ['Nov 5', 'Diwali Reception at the Embassy of India'], ['Nov 6', '32nd Annual Loudoun Small Business Awards'], ['Nov 9–11', 'B20 Summit — U.S. Chamber of Commerce'], ['Nov 12', 'National ACE Q4 Strategic Partners Meeting']] }
+  ];
+  function renderRecaps() {
+    var host = $('#recaps'); if (!host) return;
+    var MON = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var nowKey = new Date().toISOString().slice(0, 10);
+    var row = function (d, t) { return '<div class="grid" style="grid-template-columns:84px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid #DCD5C7;align-items:baseline"><span class="mono" style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#004AAD">' + esc(d) + '</span><span class="serif" style="font-size:20px;line-height:1.25">' + esc(t) + '</span></div>'; };
+    var label = function (r) { return MON[+r.month.slice(5) - 1] + ' ' + r.month.slice(0, 4); };
+    var list = RECAPS.slice().sort(function (a, b) { return a.month < b.month ? 1 : -1; }); // newest first
+    var slides = list.map(function (r) {
+      var hosted = EVENTS.filter(function (e) { return e.kind === 'NNI event' && e.date.slice(0, 7) === r.month && e.date.slice(0, 10) < nowKey; })
+        .sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+      var block = function (head, rows) { return rows ? '<div class="stack" style="gap:6px"><span class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6B7380;padding-bottom:6px">' + head + '</span><div style="border-top:1px solid #DCD5C7">' + rows + '</div></div>' : ''; };
+      var h = hosted.map(function (e) { return row(e.date.length === 10 ? MON[+e.date.slice(5, 7) - 1].slice(0, 3) + ' ' + (+e.date.slice(8, 10)) : 'All month', e.title); }).join('');
+      var j = (r.joined || []).map(function (x) { return row(x[0], x[1]); }).join('');
+      return '<article class="recap-slide" aria-roledescription="slide" aria-label="' + esc(label(r)) + '"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,56px)">' +
+        '<div class="stack g14" style="align-items:flex-start"><span class="tag">Recap · ' + esc(label(r)) + '</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.1">' + esc(r.title) + '</h3><a class="link" href="events.html" data-month="' + r.month + '">See ' + esc(MON[+r.month.slice(5) - 1]) + ' on the calendar →</a></div>' +
+        '<div class="stack" style="gap:28px">' + block('NNI hosted', h) + block('NNI took part in', j) + '</div></div></article>';
+    }).join('');
+    var chips = list.map(function (r, i) { return '<button type="button" class="chip" data-i="' + i + '" aria-label="Show ' + esc(label(r)) + '">' + esc(MON[+r.month.slice(5) - 1].slice(0, 3)) + '</button>'; }).join('');
+    host.innerHTML = '<div class="recap-car" aria-roledescription="carousel" aria-label="Monthly recaps">' +
+      '<div class="recap-bar"><span class="eyebrow">Month by month · 2026</span><div class="recap-nav"><button type="button" class="chip" data-step="-1" aria-label="Newer month">←</button>' + chips + '<button type="button" class="chip" data-step="1" aria-label="Older month">→</button></div></div>' +
+      '<div class="recap-track" tabindex="0"><div class="recap-rail">' + slides + '</div></div></div>';
+    var track = host.querySelector('.recap-track'), rail = host.querySelector('.recap-rail'), btns = host.querySelectorAll('[data-i]'), cur = 0;
+    var mark = function () {
+      rail.style.transform = 'translateX(' + (-100 * cur) + '%)';
+      [].forEach.call(rail.children, function (sl, k) { sl.setAttribute('aria-hidden', k !== cur); sl.querySelectorAll('a').forEach(function (a) { a.tabIndex = k === cur ? 0 : -1; }); });
+      btns.forEach(function (b, k) { b.classList.toggle('on', k === cur); b.setAttribute('aria-pressed', k === cur); });
+      host.querySelector('[data-step="-1"]').disabled = cur === 0; host.querySelector('[data-step="1"]').disabled = cur === list.length - 1;
+      var sl = rail.children[cur]; if (sl) track.style.height = sl.offsetHeight + 'px';
+    };
+    var go = function (i) { cur = Math.max(0, Math.min(list.length - 1, i)); mark(); };
+    btns.forEach(function (b) { b.addEventListener('click', function () { go(+b.getAttribute('data-i')); }); });
+    host.querySelectorAll('[data-step]').forEach(function (b) { b.addEventListener('click', function () { go(cur + +b.getAttribute('data-step')); }); });
+    track.addEventListener('keydown', function (ev) { if (ev.key === 'ArrowRight') { ev.preventDefault(); go(cur + 1); } if (ev.key === 'ArrowLeft') { ev.preventDefault(); go(cur - 1); } });
+    var sx = null, sy = 0;
+    track.addEventListener('touchstart', function (ev) { sx = ev.touches[0].clientX; sy = ev.touches[0].clientY; }, { passive: true });
+    track.addEventListener('touchend', function (ev) { if (sx === null) return; var dx = ev.changedTouches[0].clientX - sx, dy = ev.changedTouches[0].clientY - sy; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1)); sx = null; });
+    host.querySelectorAll('[data-month]').forEach(function (a) { a.addEventListener('click', function () { try { sessionStorage.setItem('nniCalMonth', a.getAttribute('data-month')); } catch (x) {} }); });
+    mark();
+    window.addEventListener('resize', mark);
+  }
+
+  renderRecaps();
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   var now = new Date();
@@ -118,6 +159,7 @@
     return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(e.title) + '&dates=' + d + '/' + d2 + '&details=' + encodeURIComponent((e.time ? 'Time: ' + e.time + '\n' : '') + 'https://nneighbor.org/events.html') + (e.location ? '&location=' + encodeURIComponent(e.location) : '');
   }
   var cal = { y: now.getFullYear(), m: now.getMonth(), f: 'all' };
+  try { var jm = sessionStorage.getItem('nniCalMonth'); if (jm) { cal.y = +jm.slice(0, 4); cal.m = +jm.slice(5, 7) - 1; sessionStorage.removeItem('nniCalMonth'); } } catch (x) {}
   var key = function (y, m) { return y + '-' + String(m + 1).padStart(2, '0'); };
   var areasOf = function (e) { return [].concat(e.area); };
   var pass = function (e) { return cal.f === 'all' || areasOf(e).indexOf(cal.f) >= 0; };
