@@ -125,7 +125,7 @@
       var j = (r.joined || []).map(function (x) { return row(x[0], x[1], x[2]); }).join('');
       return '<article class="recap-slide" aria-roledescription="slide" aria-label="' + esc(label(r)) + '"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,56px)">' +
         '<div class="stack g14" style="align-items:flex-start"><span class="tag">' + esc(label(r)) + '</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.1">' + esc(r.title) + '</h3></div>' +
-        '<div class="stack" style="gap:28px">' + block('NNI was invited to', j) + '</div></div></article>';
+        '<div class="stack" style="gap:28px">' + block('NNI contributed to', j) + '</div></div></article>';
     }).join('');
     var chips = list.map(function (r, i) { return '<button type="button" class="chip" data-i="' + i + '" aria-label="Show ' + esc(label(r)) + '">' + esc(MON[+r.month.slice(5) - 1].slice(0, 3)) + '</button>'; }).join('');
     host.innerHTML = '<div class="recap-car" aria-roledescription="carousel" aria-label="Monthly recaps">' +
