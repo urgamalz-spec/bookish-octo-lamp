@@ -164,7 +164,7 @@
     var out = $('#cal-list');
     if (!days.length) {
       var later = EVENTS.filter(function (e) { return pass(e) && e.date.slice(0, 7) > ym; }).sort(function (a, b) { return sortKey(a) < sortKey(b) ? -1 : 1; })[0];
-      out.innerHTML = '<div class="cardw stack g18" style="margin-top:24px;padding:clamp(32px,4vw,56px);align-items:flex-start"><span class="mono" style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#6B7380">No events listed</span><p class="serif" style="margin:0;font-size:clamp(24px,2.6vw,34px);line-height:1.2">' + (ym < cur ? 'No events recorded for ' + MONTHS[cal.m] + ' ' + cal.y + '.' : 'Nothing on the calendar for ' + MONTHS[cal.m] + ' ' + cal.y + ' yet.') + '</p>' +
+      out.innerHTML = '<div class="cardw stack g18" style="margin-top:24px;padding:clamp(32px,4vw,56px);align-items:flex-start"><span class="mono" style="font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#6B7380">' + (ym < cur ? MONTHS[cal.m] + ' ' + cal.y : 'No events listed') + '</span><p class="serif" style="margin:0;font-size:clamp(24px,2.6vw,34px);line-height:1.2">' + (ym < cur ? 'A quieter month on our calendar. Explore the months before and after to see more of NNI’s work.' : 'Nothing on the calendar for ' + MONTHS[cal.m] + ' ' + cal.y + ' yet.') + '</p>' +
         (later ? '<button type="button" class="btn btn-gold" id="cal-jump" style="font-size:10.5px;padding:13px 20px">Next listed event · ' + MONTHS[+later.date.slice(5, 7) - 1] + ' ' + later.date.slice(0, 4) + ' →</button>' : '') + '</div>';
       if (later) $('#cal-jump').addEventListener('click', function () { cal.y = +later.date.slice(0, 4); cal.m = +later.date.slice(5, 7) - 1; renderCal(); });
       return;
