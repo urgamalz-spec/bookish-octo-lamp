@@ -109,7 +109,7 @@
     var nowKey = new Date().toISOString().slice(0, 10);
     var row = function (d, t) { return '<div class="grid" style="grid-template-columns:84px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid #DCD5C7;align-items:baseline"><span class="mono" style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#004AAD">' + esc(d) + '</span><span class="serif" style="font-size:20px;line-height:1.25">' + esc(t) + '</span></div>'; };
     var label = function (r) { return MON[+r.month.slice(5) - 1] + ' ' + r.month.slice(0, 4); };
-    var list = RECAPS.slice().sort(function (a, b) { return a.month < b.month ? 1 : -1; }); // newest first
+    var list = RECAPS.slice().sort(function (a, b) { return a.month < b.month ? -1 : 1; }); // oldest → newest, left to right
     var slides = list.map(function (r) {
       var hosted = EVENTS.filter(function (e) { return e.kind === 'NNI event' && e.date.slice(0, 7) === r.month && e.date.slice(0, 10) < nowKey; })
         .sort(function (a, b) { return a.date < b.date ? -1 : 1; });
@@ -122,9 +122,9 @@
     }).join('');
     var chips = list.map(function (r, i) { return '<button type="button" class="chip" data-i="' + i + '" aria-label="Show ' + esc(label(r)) + '">' + esc(MON[+r.month.slice(5) - 1].slice(0, 3)) + '</button>'; }).join('');
     host.innerHTML = '<div class="recap-car" aria-roledescription="carousel" aria-label="Monthly recaps">' +
-      '<div class="recap-bar"><span class="eyebrow">Month by month · 2026</span><div class="recap-nav"><button type="button" class="chip" data-step="-1" aria-label="Newer month">←</button>' + chips + '<button type="button" class="chip" data-step="1" aria-label="Older month">→</button></div></div>' +
+      '<div class="recap-bar"><span class="eyebrow">Month by month · 2026</span><div class="recap-nav"><button type="button" class="chip" data-step="-1" aria-label="Earlier month">←</button>' + chips + '<button type="button" class="chip" data-step="1" aria-label="Later month">→</button></div></div>' +
       '<div class="recap-track" tabindex="0"><div class="recap-rail">' + slides + '</div></div></div>';
-    var track = host.querySelector('.recap-track'), rail = host.querySelector('.recap-rail'), btns = host.querySelectorAll('[data-i]'), cur = 0;
+    var track = host.querySelector('.recap-track'), rail = host.querySelector('.recap-rail'), btns = host.querySelectorAll('[data-i]'), cur = list.length - 1;
     var mark = function () {
       rail.style.transform = 'translateX(' + (-100 * cur) + '%)';
       [].forEach.call(rail.children, function (sl, k) { sl.setAttribute('aria-hidden', k !== cur); sl.querySelectorAll('a').forEach(function (a) { a.tabIndex = k === cur ? 0 : -1; }); });
