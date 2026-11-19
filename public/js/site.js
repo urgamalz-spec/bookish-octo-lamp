@@ -98,13 +98,9 @@
   ];
 
   /* ---------- Month-by-month recap carousel (News page) ---------- */
-  // NNI-hosted items come from EVENTS automatically; add partner events NNI took part in under "joined".
+  // Partner and community events NNI took part in, one entry per month.
   var RECAPS = [
-    { month: '2026-02', title: 'Mongolian culture on Capitol Hill' },
-    { month: '2026-04', title: 'Listening first: what the community told us' },
-    { month: '2026-05', title: 'The community’s first congressional fly-in' },
-    { month: '2026-09', title: 'AAPI small businesses in federal policy' },
-    { month: '2026-10', title: 'Democracy, storytelling, and business leadership', joined: [['Oct 16', 'Asian American Chamber of Commerce Business Summit'], ['Oct 21', 'US Chamber of Commerce Small Business Forum'], ['Oct 22', 'Prince George’s County Office of Procurement — Partnering for Impact'], ['Oct 27', 'Maryland State Business Roundtable']] },
+    { month: '2026-10', title: 'NNI in the room with business and procurement leaders', joined: [['Oct 16', 'Asian American Chamber of Commerce Business Summit'], ['Oct 21', 'US Chamber of Commerce Small Business Forum'], ['Oct 22', 'Prince George’s County Office of Procurement — Partnering for Impact'], ['Oct 27', 'Maryland State Business Roundtable']] },
     { month: '2026-11', title: 'From the B20 Summit to District procurement leaders', joined: [['Nov 5', 'DC Department of General Services — 3rd Annual Certified Business Enterprise Symposium'], ['Nov 5', 'Diwali Reception at the Embassy of India'], ['Nov 6', '32nd Annual Loudoun Small Business Awards'], ['Nov 9–11', 'B20 Summit — U.S. Chamber of Commerce'], ['Nov 12', 'National ACE Q4 Strategic Partners Meeting']] }
   ];
   function renderRecaps() {
@@ -121,8 +117,8 @@
       var h = hosted.map(function (e) { return row(e.date.length === 10 ? MON[+e.date.slice(5, 7) - 1].slice(0, 3) + ' ' + (+e.date.slice(8, 10)) : 'All month', e.title); }).join('');
       var j = (r.joined || []).map(function (x) { return row(x[0], x[1]); }).join('');
       return '<article class="recap-slide" aria-roledescription="slide" aria-label="' + esc(label(r)) + '"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,56px)">' +
-        '<div class="stack g14" style="align-items:flex-start"><span class="tag">Recap · ' + esc(label(r)) + '</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.1">' + esc(r.title) + '</h3><a class="link" href="events.html" data-month="' + r.month + '">See ' + esc(MON[+r.month.slice(5) - 1]) + ' on the calendar →</a></div>' +
-        '<div class="stack" style="gap:28px">' + block('NNI hosted', h) + block('NNI took part in', j) + '</div></div></article>';
+        '<div class="stack g14" style="align-items:flex-start"><span class="tag">Recap · ' + esc(label(r)) + '</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.1">' + esc(r.title) + '</h3></div>' +
+        '<div class="stack" style="gap:28px">' + block('NNI took part in', j) + '</div></div></article>';
     }).join('');
     var chips = list.map(function (r, i) { return '<button type="button" class="chip" data-i="' + i + '" aria-label="Show ' + esc(label(r)) + '">' + esc(MON[+r.month.slice(5) - 1].slice(0, 3)) + '</button>'; }).join('');
     host.innerHTML = '<div class="recap-car" aria-roledescription="carousel" aria-label="Monthly recaps">' +
