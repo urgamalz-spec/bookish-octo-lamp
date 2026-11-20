@@ -97,61 +97,32 @@
     { date: '2027-09', title: 'Small Business Masterclass | Build an Online Store That Sells', area: 'economic', kind: 'NNI event', note: 'Ready to sell online for the first time, or wondering why shoppers visit your store without buying? Join New Neighbor Initiative for an e-commerce masterclass for micro and small business owners.\n\nWe’ll follow the customer’s journey from the first product page to checkout. Learn how to choose a sales platform that fits your business, build product pages that answer buyers’ questions, and make decisions about shipping and returns that work for your customers and your margins. If you already sell online, we’ll look at how to spot where shoppers drop off and decide what to fix first.\n\nBring a product you want to sell or an online store you want to improve. Leave with a short list of changes you can put to work right away.\n\n' + NL }
   ];
 
-  /* ---------- Month-by-month recap carousel (News page) ---------- */
-  // Partner and community events NNI took part in, one entry per month.
-  var RECAPS = [
-    { month: '2026-03', title: 'Careers, AI, and civil rights', joined: [['Mar 6', 'Washington DC Career Fair', 'Nationwide Career Fairs'], ['Mar 31', 'AI and Civil Rights Panel + Tech and Law Reception', 'Black Gov Tech and the National Bar Association’s Privacy, Cybersecurity, and Law Section']] },
-    { month: '2026-04', title: 'Policy briefings and women of excellence', joined: [['Apr 16', 'CHLI Congressional Public Policy Briefing: Energy', 'Congressional Hispanic Leadership Institute (CHLI)'], ['Apr 23', 'Washington Women of Excellence Awards']] },
-    { month: '2026-05', title: 'Entrepreneurship, legislative leadership, and Capitol Hill Day', joined: [['May 8', 'Building Community through Entrepreneurship: Small Business Panel', 'DC Mayor’s Office on Asian and Pacific Islander Affairs (MOAPIA) and Barracks Row Main Street'], ['May 12', 'APAICS Legislative Leadership Summit', 'APAICS'], ['May 14', 'National ACE Capitol Hill Day', 'National ACE']] },
-    { month: '2026-06', title: 'Real estate professionals and the future of work', joined: [['Jun 15', 'DCAR YPN Rooftop Reception', 'District of Columbia Association of Realtors’ Young Professionals Network'], ['Jun 20', 'The Future of Our Realities: The Future of Work and Truth']] },
-    { month: '2026-07', title: 'Partners, policy, and democracy', joined: [['Jul 8', 'National ACE Q2 Strategic Partner Meeting', 'National ACE'], ['Jul 15', 'Women in Policy Alliance: Coffee & Conversation', 'Progressive Policy Institute and Mosaic'], ['Jul 21', 'NHIT Legislative Summit', 'NHIT, in collaboration with HIMSS'], ['Jul 22', 'Presentation on Transnational Repression & Cultural Expression', 'Sincere Pictures'], ['Jul 23', 'Forging a Democracy that Works for All']] },
-    { month: '2026-08', title: 'Growing small businesses online', joined: [['Aug 27', 'Masterclass: Building Your Breakout Business on Amazon']] },
-    { month: '2026-09', title: 'Tech policy, AI, and climate', joined: [['Sep 9', 'Communications Strategy in a Fragmented Media Landscape', 'Progressive Policy Institute’s Women in Policy Alliance'], ['Sep 16', 'PPI’s Investment Heroes Awards and Reception', 'PPI'], ['Sep 23', 'Women in AI Network Global Launch in New York City: From Access to Agency', 'iamtheCODE'], ['Sep 24', 'AR/VR Policy Conference', 'Information Technology and Innovation Foundation (ITIF) and XR Association'], ['Sep 25', 'Addressing the Cost of Climate Impact: Actions at the Scale of the City'], ['Sep 29', 'Funding the Future of Tech Policy', 'Public Knowledge']] },
-    { month: '2026-10', title: 'NNI in the room with business and procurement leaders', joined: [['Oct 1', 'Communicators Reception', 'Association of Equipment Manufacturers'], ['Oct 6', 'Northern Virginia Career Fair'], ['Oct 16', 'Asian American Chamber of Commerce Business Summit'], ['Oct 20', 'Consumer Action’s 55th Anniversary Awards Reception', 'Consumer Action'], ['Oct 21', 'US Chamber of Commerce Small Business Forum'], ['Oct 22', 'Prince George’s County Office of Procurement — Partnering for Impact'], ['Oct 27', 'Maryland State Business Roundtable']] },
-    { month: '2026-11', title: 'From the B20 Summit to District procurement leaders', joined: [['Nov 5', 'DC Department of General Services — 3rd Annual Certified Business Enterprise Symposium'], ['Nov 6', '32nd Annual Loudoun Small Business Awards'], ['Nov 9–11', 'B20 Summit — U.S. Chamber of Commerce'], ['Nov 12', 'National ACE Q4 Strategic Partners Meeting'], ['Nov 17', 'Transferable Skills Workshop: Thriving Beyond the Federal Workforce', 'City of Alexandria Workforce Development Center'], ['Nov 17', 'Energy Careers Reception', 'Center for Energy Workforce Development (CEWD)'], ['Nov 18', 'NHIT Congressional Briefing', 'NHIT'], ['Nov 19', 'Addressing the Missing Middle', 'U.S. Chamber of Commerce Foundation and AI Adoption Initiative']] }
+  /* ---------- Partnerships and convenings (News page) ---------- */
+  // A short list of highlights. Keep it to the convenings where NNI spoke, represented the community, or worked with the hosts.
+  var HIGHLIGHTS = [
+    ['Apr 16', 'CHLI Congressional Public Policy Briefing: Energy', 'Congressional Hispanic Leadership Institute (CHLI)'],
+    ['May 8', 'Building Community through Entrepreneurship: Small Business Panel', 'DC Mayor’s Office on Asian and Pacific Islander Affairs (MOAPIA) and Barracks Row Main Street'],
+    ['May 12', 'APAICS Legislative Leadership Summit', 'APAICS'],
+    ['May 14', 'National ACE Capitol Hill Day', 'National ACE'],
+    ['Oct 16', 'Business Summit', 'Asian American Chamber of Commerce'],
+    ['Oct 21', 'Small Business Forum', 'U.S. Chamber of Commerce'],
+    ['Oct 22', 'Partnering for Impact', 'Prince George’s County Office of Procurement'],
+    ['Oct 27', 'Maryland State Business Roundtable', ''],
+    ['Nov 5', '3rd Annual Certified Business Enterprise Symposium', 'DC Department of General Services'],
+    ['Nov 9–11', 'B20 Summit', 'U.S. Chamber of Commerce'],
+    ['Nov 18', 'NHIT Congressional Briefing', 'NHIT'],
+    ['Nov 19', 'Addressing the Missing Middle', 'U.S. Chamber of Commerce Foundation and AI Adoption Initiative']
   ];
   function renderRecaps() {
     var host = $('#recaps'); if (!host) return;
-    var MON = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var nowKey = new Date().toISOString().slice(0, 10);
-    var row = function (d, t, by) { return '<div class="grid" style="grid-template-columns:84px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid #DCD5C7;align-items:baseline"><span class="mono" style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#004AAD">' + esc(d) + '</span><span><span class="serif" style="display:block;font-size:20px;line-height:1.25">' + esc(t) + '</span>' + (by ? '<span style="display:block;margin-top:4px;font-size:14px;line-height:1.4;color:#6B7380">' + esc(by) + '</span>' : '') + '</span></div>'; };
-    var label = function (r) { return MON[+r.month.slice(5) - 1] + ' ' + r.month.slice(0, 4); };
-    var list = RECAPS.slice().sort(function (a, b) { return a.month < b.month ? -1 : 1; }); // oldest → newest, left to right
-    var slides = list.map(function (r) {
-      var hosted = EVENTS.filter(function (e) { return e.kind === 'NNI event' && e.date.slice(0, 7) === r.month && e.date.slice(0, 10) < nowKey; })
-        .sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-      var block = function (head, rows) { return rows ? '<div class="stack" style="gap:6px"><span class="mono" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6B7380;padding-bottom:6px">' + head + '</span><div style="border-top:1px solid #DCD5C7">' + rows + '</div></div>' : ''; };
-      var h = hosted.map(function (e) { return row(e.date.length === 10 ? MON[+e.date.slice(5, 7) - 1].slice(0, 3) + ' ' + (+e.date.slice(8, 10)) : 'All month', e.title); }).join('');
-      var j = (r.joined || []).map(function (x) { return row(x[0], x[1], x[2]); }).join('');
-      return '<article class="recap-slide" aria-roledescription="slide" aria-label="' + esc(label(r)) + '"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,56px)">' +
-        '<div class="stack g14" style="align-items:flex-start"><span class="tag">' + esc(label(r)) + '</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.1">' + esc(r.title) + '</h3></div>' +
-        '<div class="stack" style="gap:28px">' + block('NNI contributed to', j) + '</div></div></article>';
+    var rows = HIGHLIGHTS.map(function (x) {
+      return '<div class="grid" style="grid-template-columns:84px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid #DCD5C7;align-items:baseline"><span class="mono" style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#004AAD">' + esc(x[0]) + '</span><span><span class="serif" style="display:block;font-size:20px;line-height:1.25">' + esc(x[1]) + '</span>' + (x[2] ? '<span style="display:block;margin-top:4px;font-size:14px;line-height:1.4;color:#6B7380">' + esc(x[2]) + '</span>' : '') + '</span></div>';
     }).join('');
-    var chips = list.map(function (r, i) { return '<button type="button" class="chip" data-i="' + i + '" aria-label="Show ' + esc(label(r)) + '">' + esc(MON[+r.month.slice(5) - 1].slice(0, 3)) + '</button>'; }).join('');
-    host.innerHTML = '<div class="recap-car" aria-roledescription="carousel" aria-label="Monthly recaps">' +
-      '<div class="stack g14" style="max-width:820px;margin-bottom:36px"><span class="eyebrow">Invited to the table · 2026</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(30px,3.4vw,46px);line-height:1.08;color:#033366">Where partners asked NNI to join the conversation</h3><p class="body" style="margin:0">Government offices, chambers of commerce, policy institutes, and community organizations invited NNI to their briefings, summits, and convenings. At each one, NNI brought the perspective of the communities and small businesses we serve, built relationships with decision-makers and partners, and carried what we learned back to our community.</p></div>' +
-      '<div class="recap-bar"><span class="eyebrow">Browse by month</span><div class="recap-nav"><button type="button" class="chip" data-step="-1" aria-label="Earlier month">←</button>' + chips + '<button type="button" class="chip" data-step="1" aria-label="Later month">→</button></div></div>' +
-      '<div class="recap-track" tabindex="0"><div class="recap-rail">' + slides + '</div></div></div>';
-    var track = host.querySelector('.recap-track'), rail = host.querySelector('.recap-rail'), btns = host.querySelectorAll('[data-i]'), cur = list.length - 1;
-    var mark = function () {
-      rail.style.transform = 'translateX(' + (-100 * cur) + '%)';
-      [].forEach.call(rail.children, function (sl, k) { sl.setAttribute('aria-hidden', k !== cur); sl.querySelectorAll('a').forEach(function (a) { a.tabIndex = k === cur ? 0 : -1; }); });
-      btns.forEach(function (b, k) { b.classList.toggle('on', k === cur); b.setAttribute('aria-pressed', k === cur); });
-      host.querySelector('[data-step="-1"]').disabled = cur === 0; host.querySelector('[data-step="1"]').disabled = cur === list.length - 1;
-      var sl = rail.children[cur]; if (sl) track.style.height = sl.offsetHeight + 'px';
-    };
-    var go = function (i) { cur = Math.max(0, Math.min(list.length - 1, i)); mark(); };
-    btns.forEach(function (b) { b.addEventListener('click', function () { go(+b.getAttribute('data-i')); }); });
-    host.querySelectorAll('[data-step]').forEach(function (b) { b.addEventListener('click', function () { go(cur + +b.getAttribute('data-step')); }); });
-    track.addEventListener('keydown', function (ev) { if (ev.key === 'ArrowRight') { ev.preventDefault(); go(cur + 1); } if (ev.key === 'ArrowLeft') { ev.preventDefault(); go(cur - 1); } });
-    var sx = null, sy = 0;
-    track.addEventListener('touchstart', function (ev) { sx = ev.touches[0].clientX; sy = ev.touches[0].clientY; }, { passive: true });
-    track.addEventListener('touchend', function (ev) { if (sx === null) return; var dx = ev.changedTouches[0].clientX - sx, dy = ev.changedTouches[0].clientY - sy; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) go(cur + (dx < 0 ? 1 : -1)); sx = null; });
-    host.querySelectorAll('[data-month]').forEach(function (a) { a.addEventListener('click', function () { try { sessionStorage.setItem('nniCalMonth', a.getAttribute('data-month')); } catch (x) {} }); });
-    mark();
-    window.addEventListener('resize', mark);
+    host.innerHTML = '<div class="grid" style="padding:32px 0;border-bottom:1px solid #DCD5C7;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(24px,4vw,56px)">' +
+      '<div class="stack g14" style="align-items:flex-start"><span class="tag">Partnerships and convenings · 2026</span><h3 class="serif" style="margin:0;font-weight:500;font-size:clamp(28px,3vw,40px);line-height:1.1">Working alongside partners</h3>' +
+      '<p class="body" style="margin:0">In 2026, NNI took part in more than 35 convenings hosted by the U.S. Chamber of Commerce, National ACE, APAICS, CHLI, the Progressive Policy Institute, and others. A few highlights:</p></div>' +
+      '<div style="border-top:1px solid #DCD5C7">' + rows + '</div></div>';
   }
-
   renderRecaps();
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
